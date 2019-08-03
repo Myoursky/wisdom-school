@@ -1,6 +1,7 @@
 // @flow
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import Body from 'components/Body';
 import Button from 'components/Button';
 import Dialog from './Dialog';
 
@@ -11,31 +12,25 @@ class Index extends React.Component<Props> {
 
   render() {
     return (
-      <Fragment>
-        <Root>
-          <Container>
-            <Elem hasBorder>
-              <Label>学生姓名</Label>
-              <Input />
-            </Elem>
-            <Elem>
-              <Label>校园卡卡号</Label>
-              <Input />
-            </Elem>
-          </Container>
-          <Button style={{position: 'absolute', bottom: 0}} disabled>提交</Button>
-        </Root>
-        <Dialog success={false} />
-      </Fragment>
+      <Body title="学生绑定">
+        <Container>
+          <Elem hasBorder>
+            <Label>学生姓名</Label>
+            <Input />
+          </Elem>
+          <Elem>
+            <Label>校园卡卡号</Label>
+            <Input />
+          </Elem>
+        </Container>
+        <Button style={{position: 'absolute', bottom: 0}} disabled>提交</Button>
+        <Dialog success={true} />
+      </Body>
     );
   }
 }
 
 export default Index
-
-const Root = styled.div`
-
-`;
 
 const Container = styled.div`
   margin: 15px;
@@ -46,6 +41,7 @@ const Container = styled.div`
 const Elem = styled.div`
   position: relative;
   display: flex;
+  background-color: #FFF;
   &:after {
     content: '';
     position: absolute;

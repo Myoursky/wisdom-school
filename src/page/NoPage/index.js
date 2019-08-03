@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
+import Body from 'components/Body';
 import NoDataIcon from 'assets/images/404.png';
 
 type Props = {
@@ -9,17 +10,19 @@ type Props = {
 class Index extends React.Component<Props> {
   render() {
     return (
-      <Root>
-        <Icon src={NoDataIcon} />
-        <Text>暂未开放，敬请期待</Text>
-      </Root>
+      <Body title="家校安智慧校园">
+        <Container>
+          <Icon src={NoDataIcon} />
+          <Text>暂未开放，敬请期待</Text>
+        </Container>
+      </Body>
     );
   }
 }
 
 export default Index
 
-const Root = styled.div`
+const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,4 +42,5 @@ const Icon = styled.img`
 const Text = styled.div`
   font-size: 15px;
   color: #333;
+  margin-top: -60px;
 `;

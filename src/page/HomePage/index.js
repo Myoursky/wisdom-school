@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import styled from 'styled-components';
+import Body from 'components/Body';
 import Banner from 'components/Banner';
 import HomeBkImg from 'assets/images/home-bk.png';
 import Grid from './Grid';
@@ -15,21 +15,12 @@ class Index extends React.Component<Props> {
 
   render() {
     return (
-      <Root>
+      <Body title="家校安智慧校园">
         <Banner banner={HomeBkImg} />
         <Grid />
-      </Root>
+      </Body>
     );
   }
 }
 
 export default Index
-
-const Root = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: #f0f1f2;
-`;

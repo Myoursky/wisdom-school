@@ -1,12 +1,13 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
+import Body from 'components/Body';
 import NoRecords from './NoRecords';
 
 class Index extends React.Component<Props> {
 
   renderData = () => {
-    if (false) {
+    if (true) {
       return <Root>
         <ElemContainer>
           <Elem hasBorder>
@@ -58,7 +59,9 @@ class Index extends React.Component<Props> {
 
   render() {
     return (
-      this.renderData()
+      <Body title="考勤记录">
+        {this.renderData()}
+      </Body>
     );
   }
 }

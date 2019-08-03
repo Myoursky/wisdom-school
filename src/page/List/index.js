@@ -2,13 +2,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import bindingBk from 'assets/images/binding-bk.png';
+import Body from 'components/Body';
 import Button from 'components/Button';
 
 class Index extends React.Component<Props> {
-
   render() {
     return (
-      <Root>
+      <Body title="学生绑定">
         <Banner img={bindingBk} />
         <Content>
           <Title>您已绑定的学生</Title>
@@ -34,15 +34,12 @@ class Index extends React.Component<Props> {
           </ElemContainer>
         </Content>
         <Button style={{position: 'absolute', bottom: 0}}>继续绑定</Button>
-      </Root>
+      </Body>
     );
   }
 }
 
 export default Index
-
-const Root = styled.div`
-`;
 
 const Banner = styled.div`
   width: 100%;
