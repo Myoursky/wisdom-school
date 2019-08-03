@@ -28,6 +28,10 @@ const store = createStore(
 )
 
 const HomePage = lazy(() => import('./page/HomePage'));
+const BindingCard = lazy(() => import('./page/Binding'));
+const BindingList = lazy(() => import('./page/List'));
+const RecordList = lazy(() => import('./page/Records'));
+const NoPage = lazy(() => import('./page/NoPage'));
 
 export default class Root extends Component<?any> {
 
@@ -39,6 +43,10 @@ export default class Root extends Component<?any> {
             <Suspense fallback={<div>加载中...</div>}>
               <Switch>
                 <Route path="/react/school/homepage" component={HomePage}/>
+                <Route path="/react/school/binding" component={BindingCard}/>
+                <Route path="/react/school/list" component={BindingList}/>
+                <Route path="/react/school/records" component={RecordList}/>
+                <Route path="/react/school/nopage" component={NoPage}/>
               </Switch>
             </Suspense>
           </Router>
