@@ -2,56 +2,42 @@
 import React from 'react';
 import styled from 'styled-components';
 import Body from 'components/Body';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { getRecords } from './../../redux/modules/binding';
 import NoRecords from './NoRecords';
+
+type Props = {
+  getRecords: Function,
+  records: Array<Object>,
+}
 
 class Index extends React.Component<Props> {
 
+  componentDidMount() {
+    this.props.getRecords();
+  }
+
   renderData = () => {
-    if (true) {
-      return <Root>
-        <ElemContainer>
+    const { records } = this.props;
+    if (records.length) {
+      const data = records.map(record => {
+        return <ElemContainer key={record.id}>
           <Elem hasBorder>
             <Label>学生姓名</Label>
-            <Value>张三</Value>
+            <Value>{record.name}</Value>
           </Elem>
           <Elem hasBorder>
             <Label>考勤时间</Label>
-            <Value>2019-09-30 07:00</Value>
+            <Value>{record.time}</Value>
           </Elem>
           <Elem>
             <Label>考勤状态</Label>
-            <Value>正常</Value>
+            <Value>{record.status === '1' ? '正常' : '异常'}</Value>
           </Elem>
         </ElemContainer>
-        <ElemContainer>
-          <Elem hasBorder>
-            <Label>学生姓名</Label>
-            <Value>李四</Value>
-          </Elem>
-          <Elem hasBorder>
-            <Label>考勤时间</Label>
-            <Value>2019-09-30 07:00</Value>
-          </Elem>
-          <Elem>
-            <Label>考勤状态</Label>
-            <Value>正常</Value>
-          </Elem>
-        </ElemContainer>
-        <ElemContainer>
-          <Elem hasBorder>
-            <Label>学生姓名</Label>
-            <Value>王五</Value>
-          </Elem>
-          <Elem hasBorder>
-            <Label>考勤时间</Label>
-            <Value>2019-09-30 07:00</Value>
-          </Elem>
-          <Elem>
-            <Label>考勤状态</Label>
-            <Value>正常</Value>
-          </Elem>
-        </ElemContainer>
-      </Root>
+      }) 
+      return <Root>{data}</Root>
     } else {
       return <NoRecords />
     }
@@ -66,7 +52,11 @@ class Index extends React.Component<Props> {
   }
 }
 
-export default Index
+export default withRouter(connect(state => ({
+  records: state.binding.records
+}), {
+  getRecords
+})(Index));
 
 const Root = styled.div`
   margin: 15px;

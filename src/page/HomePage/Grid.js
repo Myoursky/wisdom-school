@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router';
 import studentIcon from 'assets/images/student.png';
 import checkInIcon from 'assets/images/checkin.png';
 import phoneIcon from 'assets/images/phone.png';
@@ -10,51 +11,49 @@ import homeworkIcon from 'assets/images/homework.png';
 import consumeIcon from 'assets/images/consume.png';
 import vacateIcon from 'assets/images/vacate.png';
 
-type Props = {
-}
-
 class Index extends React.Component<Props> {
 
-  static defaultProps = {
-  };
+  goNextPage = (url) => {
+    this.props.history.push(url);
+  }
 
   render() {
     return (
       <Root>
         <Elems>
-          <Elem>
+          <Elem onClick={() => this.goNextPage('/react/school/list')}>
             <Icon img={studentIcon} />
             <Text>学生绑定</Text>
           </Elem>
-          <Elem>
+          <Elem onClick={() => this.goNextPage('/react/school/records')}>
             <Icon img={checkInIcon} />
             <Text>考勤记录</Text>
           </Elem>
-          <Elem>
+          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
             <Icon img={phoneIcon} />
             <Text>亲情电话</Text>
           </Elem>
         </Elems>
         <Elems>
-          <Elem>
+          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
             <Icon img={noticeIcon} />
             <Text>学校通知</Text>
           </Elem>
-          <Elem>
+          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
             <Icon img={performanceIcon} />
             <Text>成绩查询</Text>
           </Elem>
-          <Elem>
+          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
             <Icon img={homeworkIcon} />
             <Text>家庭作业</Text>
           </Elem>
         </Elems>
         <Elems>
-          <Elem>
+          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
             <Icon img={consumeIcon} />
             <Text>消费记录</Text>
           </Elem>
-          <Elem>
+          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
             <Icon img={vacateIcon} />
             <Text>请假申请</Text>
           </Elem>
@@ -67,7 +66,7 @@ class Index extends React.Component<Props> {
   }
 }
 
-export default Index
+export default withRouter(Index);
 
 const Root = styled.div`
   margin: 0 15px;

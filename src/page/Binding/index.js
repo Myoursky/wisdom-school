@@ -3,34 +3,103 @@ import React from 'react';
 import styled from 'styled-components';
 import Body from 'components/Body';
 import Button from 'components/Button';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { addStudent } from './../../redux/modules/binding';
 import Dialog from './Dialog';
 
 type Props = {
+  addStudent: Function
 }
 
-class Index extends React.Component<Props> {
+type State = {
+  name: string,
+  number: string,
+  isCorrect: boolean,
+  showDialog: false,
+  bindSuccess: false
+}
+
+class Index extends React.Component<Props, State> {
+
+  state = {
+    name: '',
+    number: '',
+    isCorrect: false
+  }
+
+  validate = async () => {
+    const { name, number } = this.state;
+    if (name === '') {
+      await this.setState({isCorrect: false});
+      return;
+    }
+    if (number === '') {
+      await this.setState({isCorrect: false});
+      return;
+    }
+    await this.setState({isCorrect: true});
+  }
+
+  saveStudent = () => {
+    const { name, number, isCorrect } = this.state;
+    if (!isCorrect) return;
+    if (isCorrect) {
+      this.props.addStudent({
+        name,
+        number
+      }).then(async (result) => {
+        if (result.code === '1') {
+          await this.setState({showDialog: true, bindSuccess: true});
+          setTimeout(async () => {
+            await this.setState({showDialog: false})
+            this.props.history.replace('/react/school/list');
+          }, 1000);
+        } else {
+          await this.setState({showDialog: true, bindSuccess: false});
+        }
+      });
+    }
+  }
+
+  changeName = async (event) => {
+    await this.setState({name: event.target.value});
+    this.validate();
+  }
+
+  changeNumber = async (event) => {
+    await this.setState({number: event.target.value});
+    this.validate();
+  }
+
+  resetBindingInfo = () => {
+    this.setState({number: '', name: '', showDialog: false, bindSuccess: false, isCorrect: false });
+  }
 
   render() {
+    const { name, number, isCorrect, showDialog, bindSuccess } = this.state;
     return (
       <Body title="学生绑定">
         <Container>
           <Elem hasBorder>
             <Label>学生姓名</Label>
-            <Input />
+            <Input value={name} onChange={this.changeName}/>
           </Elem>
           <Elem>
             <Label>校园卡卡号</Label>
-            <Input />
+            <Input value={number} onChange={this.changeNumber}/>
           </Elem>
         </Container>
-        <Button style={{position: 'absolute', bottom: 0}} disabled>提交</Button>
-        <Dialog success={true} />
+        <Button style={{position: 'absolute', bottom: 0}} disabled={!isCorrect} onClick={this.saveStudent}>提交</Button>
+        { showDialog && <Dialog success={bindSuccess} onClick={this.resetBindingInfo} /> }
       </Body>
     );
   }
 }
 
-export default Index
+export default withRouter(connect(null, {
+  addStudent
+})(Index));
 
 const Container = styled.div`
   margin: 15px;

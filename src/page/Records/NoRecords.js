@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router';
 import WarnBk from 'assets/images/warn-bk.png';
 import WarnIcon from 'assets/images/warn.png';
 import Button from 'components/Button';
@@ -9,6 +10,11 @@ type Props = {
 }
 
 class Index extends React.Component<Props> {
+
+  goNextPage = () => {
+    this.props.history.push('/react/school/list');
+  }
+
   render() {
     return (
       <Root>
@@ -16,7 +22,7 @@ class Index extends React.Component<Props> {
           <Icon src={WarnIcon} />
           <Text>请先绑定学生信息</Text>
         </Banner>
-        <Button onClick={this.onClick} style={{position: 'absolute', bottom: 0}}>
+        <Button onClick={this.goNextPage} style={{position: 'absolute', bottom: 0}}>
           去绑定
         </Button>
       </Root>
@@ -24,7 +30,7 @@ class Index extends React.Component<Props> {
   }
 }
 
-export default Index
+export default withRouter(Index);
 
 const Root = styled.div`
 `;

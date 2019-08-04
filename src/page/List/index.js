@@ -3,43 +3,66 @@ import React from 'react';
 import styled from 'styled-components';
 import bindingBk from 'assets/images/binding-bk.png';
 import Body from 'components/Body';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { getStudents } from './../../redux/modules/binding';
 import Button from 'components/Button';
 
+type Props = {
+  getRecords: Function,
+  records: Array<Object>,
+}
+
 class Index extends React.Component<Props> {
+
+  async componentDidMount() {
+    await this.props.getStudents();
+    const { students } = this.props;
+    if (students.length === 0) {
+      this.props.history.push('/react/school/binding');
+    }
+  }
+
+  goBinding = () => {
+    this.props.history.push('/react/school/binding');
+  }
+
+  renderData = () => {
+    const { students } = this.props;
+    const data = students && students.map((student) => {
+      return <ElemContainer key={student.id}>
+        <Elem hasBorder>
+          <Label>学生姓名</Label>
+          <Value>{student.name}</Value>
+        </Elem>
+        <Elem>
+          <Label>校园卡卡号</Label>
+          <Value>{student.number}</Value>
+        </Elem>
+      </ElemContainer>
+    });
+    return data;
+  }
+
   render() {
     return (
       <Body title="学生绑定">
         <Banner img={bindingBk} />
         <Content>
           <Title>您已绑定的学生</Title>
-          <ElemContainer>
-            <Elem hasBorder>
-              <Label>学生姓名</Label>
-              <Value>张三</Value>
-            </Elem>
-            <Elem>
-              <Label>校园卡卡号</Label>
-              <Value>123456</Value>
-            </Elem>
-          </ElemContainer>
-          <ElemContainer>
-            <Elem hasBorder>
-              <Label>学生姓名</Label>
-              <Value>李四</Value>
-            </Elem>
-            <Elem>
-              <Label>校园卡卡号</Label>
-              <Value>123456</Value>
-            </Elem>
-          </ElemContainer>
+          {this.renderData()}
         </Content>
-        <Button style={{position: 'absolute', bottom: 0}}>继续绑定</Button>
+        <Button style={{position: 'absolute', bottom: 0}} onClick={this.goBinding}>继续绑定</Button>
       </Body>
     );
   }
 }
 
-export default Index
+export default withRouter(connect(state => ({
+  students: state.binding.students
+}), {
+  getStudents
+})(Index));
 
 const Banner = styled.div`
   width: 100%;
