@@ -34,8 +34,8 @@ const TitleContainer = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: center;
-  font-size: 18px;
-  line-height: 18px;
+  font-size: 16px;
+  line-height: 22px;
 `
 
 const Arrow = styled.img`

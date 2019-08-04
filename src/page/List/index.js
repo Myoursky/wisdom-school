@@ -46,13 +46,13 @@ class Index extends React.Component<Props> {
 
   render() {
     return (
-      <Body title="学生绑定">
+      <Body title="学生绑定" block>
         <Banner img={bindingBk} />
         <Content>
           <Title>您已绑定的学生</Title>
           {this.renderData()}
         </Content>
-        <Button style={{position: 'absolute', bottom: 0}} onClick={this.goBinding}>继续绑定</Button>
+        <Button style={{position: 'absolute', bottom: 0, zIndex: 1}} onClick={this.goBinding}>继续绑定</Button>
       </Body>
     );
   }
@@ -72,7 +72,7 @@ const Banner = styled.div`
 `;
 
 const Content = styled.div`
-  margin: -60px 15px 15px 15px;
+  margin: -60px 15px 65px 15px;
   z-index: 1;
   position: relative;
 `;
