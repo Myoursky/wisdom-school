@@ -46,10 +46,10 @@ class Index extends React.Component<Props, State> {
     if (!isCorrect) return;
     if (isCorrect) {
       this.props.addStudent({
-        name,
-        number
+        sname: name,
+        cardNo: number
       }).then(async (result) => {
-        if (result.code === '1') {
+        if (result.success) {
           await this.setState({showDialog: true, bindSuccess: true});
           setTimeout(async () => {
             await this.setState({showDialog: false})

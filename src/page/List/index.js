@@ -33,11 +33,11 @@ class Index extends React.Component<Props> {
       return <ElemContainer key={student.id}>
         <Elem hasBorder>
           <Label>学生姓名</Label>
-          <Value>{student.name}</Value>
+          <Value>{student.sname}</Value>
         </Elem>
         <Elem>
           <Label>校园卡卡号</Label>
-          <Value>{student.number}</Value>
+          <Value>{student.cardNo}</Value>
         </Elem>
       </ElemContainer>
     });

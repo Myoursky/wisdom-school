@@ -35,10 +35,10 @@ export default function reducer(state = initial, action = {}) {
       }
     }
     case GET_STUDENTS_SUCCESS: {
-      const { data } = action.result;
+      const { datas } = action.result;
       return {
         ...state,
-        students: data
+        students: datas
       }
     }
     case GET_RECORDS: {
@@ -47,10 +47,10 @@ export default function reducer(state = initial, action = {}) {
       }
     }
     case GET_RECORDS_SUCCESS: {
-      const { data } = action.result;
+      const { datas } = action.result;
       return {
         ...state,
-        records: data
+        records: datas
       }
     }
     default:
@@ -65,7 +65,7 @@ export function addStudent(data, url = api.add_student_url) {
   return {
     types: [ADD_STUDENT, ADD_STUDENT_SUCCESS, ADD_STUDENT_FAIL],
     promise: client => client.post(url, {
-      data
+      form: data
     })
   };
 }

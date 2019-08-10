@@ -25,15 +25,15 @@ class Index extends React.Component<Props> {
         return <ElemContainer key={record.id}>
           <Elem hasBorder>
             <Label>学生姓名</Label>
-            <Value>{record.name}</Value>
+            <Value>{record.sname}</Value>
           </Elem>
           <Elem hasBorder>
             <Label>考勤时间</Label>
-            <Value>{record.time}</Value>
+            <Value>{record.attTime}</Value>
           </Elem>
           <Elem>
             <Label>考勤状态</Label>
-            <Value>{record.status === '1' ? '正常' : '异常'}</Value>
+            <Value>{record.attStatus === '1' ? '正常' : '异常'}</Value>
           </Elem>
         </ElemContainer>
       }) 

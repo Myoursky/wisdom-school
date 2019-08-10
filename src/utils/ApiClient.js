@@ -4,8 +4,8 @@ import qs from 'qs';
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 function formatUrl(path) {
-  const adjustedPath = path[0] !== '/' ? '/' + path : path;
-  return adjustedPath;
+  // const adjustedPath = path[0] !== '/' ? '/' + path : path;
+  return path;
 }
 
 export default class ApiClient {

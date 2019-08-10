@@ -42,7 +42,7 @@ export default class Root extends Component<?any> {
         <Router>
           <Suspense fallback={<Loading value="加载中..."/>}>
             <Switch>
-              <Route path="/react/school/homepage" component={HomePage}/>
+              <Route path="/wx" component={HomePage}/>
               <Route path="/react/school/binding" component={BindingCard}/>
               <Route path="/react/school/list" component={BindingList}/>
               <Route path="/react/school/records" component={RecordList}/>
