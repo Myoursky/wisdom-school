@@ -6,11 +6,11 @@ import Button from 'components/Button';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { addStudent } from './../../redux/modules/binding';
+import { getlocalStorage } from 'utils/localStorage';
 import Dialog from './Dialog';
 
 type Props = {
   addStudent: Function,
-  code: string,
 }
 
 type State = {
@@ -44,13 +44,13 @@ class Index extends React.Component<Props, State> {
 
   saveStudent = () => {
     const { name, number, isCorrect } = this.state;
-    const { code } = this.props;
+    const openId = getlocalStorage('weixin_openId');
     if (!isCorrect) return;
     if (isCorrect) {
       this.props.addStudent({
         sname: name,
         cardNo: number,
-        code
+        memberId: openId
       }).then(async (result) => {
         if (result.success) {
           await this.setState({showDialog: true, bindSuccess: true});
@@ -82,7 +82,7 @@ class Index extends React.Component<Props, State> {
   render() {
     const { name, number, isCorrect, showDialog, bindSuccess } = this.state;
     return (
-      <Body title="学生绑定">
+      <Body>
         <Container>
           <Elem hasBorder>
             <Label>学生姓名</Label>
@@ -100,9 +100,7 @@ class Index extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(connect(state => ({
-  code: state.binding.code,
-}), {
+export default withRouter(connect(null, {
   addStudent
 })(Index));
 

@@ -6,24 +6,19 @@ import Body from 'components/Body';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { getStudents } from './../../redux/modules/binding';
+import { getlocalStorage } from 'utils/localStorage';
 import Button from 'components/Button';
 
 type Props = {
   getRecords: Function,
   records: Array<Object>,
-  code: string,
 }
 
 class Index extends React.Component<Props> {
 
   async componentDidMount() {
-    const { code } = this.props;
-    await this.props.getStudents({code: code});
-    const { students } = this.props;
-    if (students.length === 0) {
-      const url = '/wx/react/school/binding';
-      this.props.history.push(url);
-    }
+    const openId = getlocalStorage('weixin_openId');
+    await this.props.getStudents({memberId: openId});
   }
 
   goBinding = () => {
@@ -50,7 +45,7 @@ class Index extends React.Component<Props> {
 
   render() {
     return (
-      <Body title="学生绑定" block>
+      <Body block>
         <Banner img={bindingBk} />
         <Content>
           <Title>您已绑定的学生</Title>
@@ -64,7 +59,6 @@ class Index extends React.Component<Props> {
 
 export default withRouter(connect(state => ({
   students: state.binding.students,
-  code: state.binding.code,
 }), {
   getStudents
 })(Index));

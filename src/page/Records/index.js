@@ -4,20 +4,20 @@ import styled from 'styled-components';
 import Body from 'components/Body';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { getlocalStorage } from 'utils/localStorage';
 import { getRecords } from './../../redux/modules/binding';
 import NoRecords from './NoRecords';
 
 type Props = {
   getRecords: Function,
   records: Array<Object>,
-  code: string,
 }
 
 class Index extends React.Component<Props> {
 
   componentDidMount() {
-    const { code } = this.props;
-    this.props.getRecords({code: code});
+    const openId = getlocalStorage('weixin_openId');
+    this.props.getRecords({memberId: openId});
   }
 
   renderData = () => {
@@ -47,7 +47,7 @@ class Index extends React.Component<Props> {
 
   render() {
     return (
-      <Body title="考勤记录">
+      <Body>
         {this.renderData()}
       </Body>
     );
@@ -55,8 +55,7 @@ class Index extends React.Component<Props> {
 }
 
 export default withRouter(connect(state => ({
-  records: state.binding.records,
-  code: state.binding.code
+  records: state.binding.records
 }), {
   getRecords
 })(Index));

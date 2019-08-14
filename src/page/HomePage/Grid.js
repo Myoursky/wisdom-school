@@ -12,13 +12,22 @@ import homeworkIcon from 'assets/images/homework.png';
 import consumeIcon from 'assets/images/consume.png';
 import vacateIcon from 'assets/images/vacate.png';
 import getURLParameters from 'utils/getURLParameters';
-import { setWexinCode } from './../../redux/modules/binding';
+import { setlocalStorage, getlocalStorage } from 'utils/localStorage';
+import { getWeixinOpenId } from './../../redux/modules/binding';
 
 class Index extends React.Component<Props> {
 
-  goNextPage = (url) => {
+  async componentDidMount() {
     const { code } = getURLParameters(window.location.href);
-    this.props.setWexinCode(code);
+    const weixinOpenId = getlocalStorage('weixin_openId');
+    if (!weixinOpenId) {
+      await this.props.getWeixinOpenId(code);
+      const { openId } = this.props;
+      setlocalStorage('weixin_openId', openId);
+    }
+  }
+
+  goNextPage = async (url) => {
     this.props.history.push(url);
   }
 
@@ -71,8 +80,10 @@ class Index extends React.Component<Props> {
   }
 }
 
-export default withRouter(connect(null, {
-  setWexinCode
+export default withRouter(connect(state => ({
+  openId: state.binding.openId,
+}), {
+  getWeixinOpenId
 })(Index));
 
 const Root = styled.div`

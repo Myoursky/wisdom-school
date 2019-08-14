@@ -14,10 +14,15 @@ const GET_RECORDS_FAIL = 'wisdomschool/binding/GET_RECORDS_FAIL';
 
 const SET_WEXIN_CODE = 'wisdomschool/binding/SET_WEXIN_CODE';
 
+const GET_WEIXIN_OPENID = 'wisdomschool/binding/GET_WEIXIN_OPENID';
+const GET_WEIXIN_OPENID_SUCCESS = 'wisdomschool/binding/GET_WEIXIN_OPENID_SUCCESS';
+const GET_WEIXIN_OPENID_FAIL = 'wisdomschool/binding/GET_WEIXIN_OPENID_FAIL';
+
 const initial = {
   students: [],
   records: [],
-  code: ''
+  code: '',
+  openId: ''
 };
 
 export default function reducer(state = initial, action = {}) {
@@ -62,6 +67,13 @@ export default function reducer(state = initial, action = {}) {
         code: action.code
       }
     }
+    case GET_WEIXIN_OPENID_SUCCESS: {
+      const { datas } = action.result
+      return {
+        ...state,
+        openId: datas
+      }
+    }
     default:
       return state;
   }
@@ -100,6 +112,20 @@ export function getRecords(data, url = api.get_records_url) {
     types: [GET_RECORDS, GET_RECORDS_SUCCESS, GET_RECORDS_FAIL],
     promise: client => client.post(url, {
       params: data
+    })
+  };
+}
+
+/**
+ * 获取微信openId
+ */
+export function getWeixinOpenId(data, url = api.get_weixin_openid_url) {
+  return {
+    types: [GET_WEIXIN_OPENID, GET_WEIXIN_OPENID_SUCCESS, GET_WEIXIN_OPENID_FAIL],
+    promise: client => client.get(url, {
+      params: {
+        code: data
+      }
     })
   };
 }

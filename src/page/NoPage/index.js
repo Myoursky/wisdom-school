@@ -10,7 +10,7 @@ type Props = {
 class Index extends React.Component<Props> {
   render() {
     return (
-      <Body title="家校安智慧校园">
+      <Body>
         <Container>
           <Icon src={NoDataIcon} />
           <Text>暂未开放，敬请期待</Text>

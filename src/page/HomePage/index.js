@@ -15,7 +15,7 @@ class Index extends React.Component<Props> {
 
   render() {
     return (
-      <Body title="家校安智慧校园" block>
+      <Body block>
         <Banner banner={HomeBkImg} />
         <Grid />
       </Body>
