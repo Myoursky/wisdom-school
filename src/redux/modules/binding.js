@@ -12,9 +12,12 @@ const GET_RECORDS = 'wisdomschool/binding/GET_RECORDS';
 const GET_RECORDS_SUCCESS = 'wisdomschool/binding/GET_RECORDS_SUCCESS';
 const GET_RECORDS_FAIL = 'wisdomschool/binding/GET_RECORDS_FAIL';
 
+const SET_WEXIN_CODE = 'wisdomschool/binding/SET_WEXIN_CODE';
+
 const initial = {
   students: [],
-  records: []
+  records: [],
+  code: ''
 };
 
 export default function reducer(state = initial, action = {}) {
@@ -53,6 +56,12 @@ export default function reducer(state = initial, action = {}) {
         records: datas
       }
     }
+    case SET_WEXIN_CODE: {
+      return {
+        ...state,
+        code: action.code
+      }
+    }
     default:
       return state;
   }
@@ -78,7 +87,7 @@ export function getStudents(data, url = api.get_students_url) {
   return {
     types: [GET_STUDENTS, GET_STUDENTS_SUCCESS, GET_STUDENTS_FAIL],
     promise: client => client.post(url, {
-      data
+      params: data
     })
   };
 }
@@ -90,7 +99,17 @@ export function getRecords(data, url = api.get_records_url) {
   return {
     types: [GET_RECORDS, GET_RECORDS_SUCCESS, GET_RECORDS_FAIL],
     promise: client => client.post(url, {
-      data
+      params: data
     })
   };
+}
+
+/**
+ * 请求参数更新
+ */
+export function setWexinCode(code) {
+  return dispatch => dispatch({
+    type: SET_WEXIN_CODE,
+    code
+  });
 }

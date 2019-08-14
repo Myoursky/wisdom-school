@@ -10,12 +10,14 @@ import NoRecords from './NoRecords';
 type Props = {
   getRecords: Function,
   records: Array<Object>,
+  code: string,
 }
 
 class Index extends React.Component<Props> {
 
   componentDidMount() {
-    this.props.getRecords();
+    const { code } = this.props;
+    this.props.getRecords({code: code});
   }
 
   renderData = () => {
@@ -53,7 +55,8 @@ class Index extends React.Component<Props> {
 }
 
 export default withRouter(connect(state => ({
-  records: state.binding.records
+  records: state.binding.records,
+  code: state.binding.code
 }), {
   getRecords
 })(Index));

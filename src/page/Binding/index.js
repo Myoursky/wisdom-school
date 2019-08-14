@@ -9,7 +9,8 @@ import { addStudent } from './../../redux/modules/binding';
 import Dialog from './Dialog';
 
 type Props = {
-  addStudent: Function
+  addStudent: Function,
+  code: string,
 }
 
 type State = {
@@ -43,17 +44,19 @@ class Index extends React.Component<Props, State> {
 
   saveStudent = () => {
     const { name, number, isCorrect } = this.state;
+    const { code } = this.props;
     if (!isCorrect) return;
     if (isCorrect) {
       this.props.addStudent({
         sname: name,
-        cardNo: number
+        cardNo: number,
+        code
       }).then(async (result) => {
         if (result.success) {
           await this.setState({showDialog: true, bindSuccess: true});
           setTimeout(async () => {
             await this.setState({showDialog: false})
-            this.props.history.replace('/react/school/list');
+            this.props.history.replace('/wx/react/school/list');
           }, 1000);
         } else {
           await this.setState({showDialog: true, bindSuccess: false});
@@ -97,7 +100,9 @@ class Index extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(connect(null, {
+export default withRouter(connect(state => ({
+  code: state.binding.code,
+}), {
   addStudent
 })(Index));
 

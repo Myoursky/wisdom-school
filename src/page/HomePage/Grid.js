@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import studentIcon from 'assets/images/student.png';
 import checkInIcon from 'assets/images/checkin.png';
@@ -10,10 +11,14 @@ import performanceIcon from 'assets/images/performance.png';
 import homeworkIcon from 'assets/images/homework.png';
 import consumeIcon from 'assets/images/consume.png';
 import vacateIcon from 'assets/images/vacate.png';
+import getURLParameters from 'utils/getURLParameters';
+import { setWexinCode } from './../../redux/modules/binding';
 
 class Index extends React.Component<Props> {
 
   goNextPage = (url) => {
+    const { code } = getURLParameters(window.location.href);
+    this.props.setWexinCode(code);
     this.props.history.push(url);
   }
 
@@ -21,39 +26,39 @@ class Index extends React.Component<Props> {
     return (
       <Root>
         <Elems>
-          <Elem onClick={() => this.goNextPage('/react/school/list')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/list')}>
             <Icon img={studentIcon} />
             <Text>学生绑定</Text>
           </Elem>
-          <Elem onClick={() => this.goNextPage('/react/school/records')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/records')}>
             <Icon img={checkInIcon} />
             <Text>考勤记录</Text>
           </Elem>
-          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/nopage')}>
             <Icon img={phoneIcon} />
             <Text>亲情电话</Text>
           </Elem>
         </Elems>
         <Elems>
-          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/nopage')}>
             <Icon img={noticeIcon} />
             <Text>学校通知</Text>
           </Elem>
-          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/nopage')}>
             <Icon img={performanceIcon} />
             <Text>成绩查询</Text>
           </Elem>
-          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/nopage')}>
             <Icon img={homeworkIcon} />
             <Text>家庭作业</Text>
           </Elem>
         </Elems>
         <Elems>
-          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/nopage')}>
             <Icon img={consumeIcon} />
             <Text>消费记录</Text>
           </Elem>
-          <Elem onClick={() => this.goNextPage('/react/school/nopage')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/nopage')}>
             <Icon img={vacateIcon} />
             <Text>请假申请</Text>
           </Elem>
@@ -66,7 +71,9 @@ class Index extends React.Component<Props> {
   }
 }
 
-export default withRouter(Index);
+export default withRouter(connect(null, {
+  setWexinCode
+})(Index));
 
 const Root = styled.div`
   margin: 0 15px;

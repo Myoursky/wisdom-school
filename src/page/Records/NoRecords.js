@@ -12,7 +12,7 @@ type Props = {
 class Index extends React.Component<Props> {
 
   goNextPage = () => {
-    this.props.history.push('/react/school/list');
+    this.props.history.push('/wx/react/school/list');
   }
 
   render() {

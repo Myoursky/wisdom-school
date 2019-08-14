@@ -11,20 +11,24 @@ import Button from 'components/Button';
 type Props = {
   getRecords: Function,
   records: Array<Object>,
+  code: string,
 }
 
 class Index extends React.Component<Props> {
 
   async componentDidMount() {
-    await this.props.getStudents();
+    const { code } = this.props;
+    await this.props.getStudents({code: code});
     const { students } = this.props;
     if (students.length === 0) {
-      this.props.history.push('/react/school/binding');
+      const url = '/wx/react/school/binding';
+      this.props.history.push(url);
     }
   }
 
   goBinding = () => {
-    this.props.history.push('/react/school/binding');
+    const url = '/wx/react/school/binding';
+    this.props.history.push(url);
   }
 
   renderData = () => {
@@ -59,7 +63,8 @@ class Index extends React.Component<Props> {
 }
 
 export default withRouter(connect(state => ({
-  students: state.binding.students
+  students: state.binding.students,
+  code: state.binding.code,
 }), {
   getStudents
 })(Index));
