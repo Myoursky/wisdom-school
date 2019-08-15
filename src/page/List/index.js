@@ -19,6 +19,10 @@ class Index extends React.Component<Props> {
   async componentDidMount() {
     const openId = getlocalStorage('weixin_openId');
     await this.props.getStudents({memberId: openId});
+    const { students } = this.props;
+    if (students.length === 0) {
+      window.alert('您还没有绑定学生，请先去绑定吧');
+    }
   }
 
   goBinding = () => {
