@@ -20,10 +20,12 @@ class Index extends React.Component<Props> {
   async componentDidMount() {
     const { code } = getURLParameters(window.location.href);
     const weixinOpenId = getlocalStorage('weixin_openId');
-    if (!weixinOpenId) {
+    if (!weixinOpenId || weixinOpenId === 'null') {
       await this.props.getWeixinOpenId(code);
       const { openId } = this.props;
-      setlocalStorage('weixin_openId', openId);
+      if (openId && openId !== 'null') {
+        setlocalStorage('weixin_openId', openId);
+      }
     }
   }
 
