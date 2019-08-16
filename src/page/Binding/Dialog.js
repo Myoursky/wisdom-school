@@ -8,18 +8,19 @@ import FailIcon from 'assets/images/fail.png';
 
 type Props = {
   success: boolean,
+  message: string,
   onClick?: Function
 }
 
 class Index extends React.Component<Props> {
 
   renderMsg = () => {
-    const { success, onClick } = this.props;
+    const { success, onClick, message } = this.props;
     if (success) {
       return '您已绑定成功，即将跳转到主页面...'
     } else {
       return <Block>
-        <Elem>信息有误，请重新绑定。</Elem>
+        <Elem>{message || '信息有误，请重新绑定。'}</Elem>
         <Link onClick={onClick}>重新绑定</Link>
       </Block>
     }

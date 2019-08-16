@@ -26,6 +26,7 @@ class Index extends React.Component<Props, State> {
   state = {
     name: '',
     number: '',
+    message: '',
     isCorrect: false
   }
 
@@ -59,6 +60,7 @@ class Index extends React.Component<Props, State> {
             this.props.history.replace('/wx/react/school/list');
           }, 1000);
         } else {
+          this.setState({message: result.message});
           await this.setState({showDialog: true, bindSuccess: false});
         }
       });
@@ -80,7 +82,7 @@ class Index extends React.Component<Props, State> {
   }
 
   render() {
-    const { name, number, isCorrect, showDialog, bindSuccess } = this.state;
+    const { name, number, message, isCorrect, showDialog, bindSuccess } = this.state;
     return (
       <Body>
         <Container>
@@ -94,7 +96,7 @@ class Index extends React.Component<Props, State> {
           </Elem>
         </Container>
         <Button style={{position: 'absolute', bottom: 0}} disabled={!isCorrect} onClick={this.saveStudent}>提交</Button>
-        { showDialog && <Dialog success={bindSuccess} onClick={this.resetBindingInfo} /> }
+        { showDialog && <Dialog message={message} success={bindSuccess} onClick={this.resetBindingInfo} /> }
       </Body>
     );
   }
