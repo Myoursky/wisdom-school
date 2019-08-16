@@ -8,6 +8,7 @@ import { withRouter } from 'react-router';
 import { getStudents } from './../../redux/modules/binding';
 import { getlocalStorage } from 'utils/localStorage';
 import Button from 'components/Button';
+import NoData from 'components/NoData';
 
 type Props = {
   getRecords: Function,
@@ -19,10 +20,6 @@ class Index extends React.Component<Props> {
   async componentDidMount() {
     const openId = getlocalStorage('weixin_openId');
     await this.props.getStudents({memberId: openId});
-    const { students } = this.props;
-    if (students.length === 0) {
-      window.alert('您还没有绑定学生，请先去绑定吧');
-    }
   }
 
   goBinding = () => {
@@ -32,6 +29,9 @@ class Index extends React.Component<Props> {
 
   renderData = () => {
     const { students } = this.props;
+    if (students.length === 0) {
+      return <NoData value="您还未绑定学生" />
+    }
     const data = students && students.map((student) => {
       return <ElemContainer key={student.id}>
         <Elem hasBorder>
@@ -48,6 +48,7 @@ class Index extends React.Component<Props> {
   }
 
   render() {
+    const hasStudent = this.props.students.length > 0;
     return (
       <Body block>
         <Banner img={bindingBk} />
@@ -55,7 +56,7 @@ class Index extends React.Component<Props> {
           <Title>您已绑定的学生</Title>
           {this.renderData()}
         </Content>
-        <Button style={{position: 'absolute', bottom: 0, zIndex: 1}} onClick={this.goBinding}>继续绑定</Button>
+        <Button style={{position: 'absolute', bottom: 0, zIndex: 1}} onClick={this.goBinding}>{hasStudent ? '继续绑定' : '去绑定'}</Button>
       </Body>
     );
   }
