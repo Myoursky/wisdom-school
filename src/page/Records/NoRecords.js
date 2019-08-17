@@ -7,6 +7,7 @@ import WarnIcon from 'assets/images/warn.png';
 import Button from 'components/Button';
 
 type Props = {
+  hasStudents: boolean,
 }
 
 class Index extends React.Component<Props> {
@@ -16,15 +17,16 @@ class Index extends React.Component<Props> {
   }
 
   render() {
+    const { hasStudents } = this.props;
     return (
       <Root>
         <Banner>
           <Icon src={WarnIcon} />
-          <Text>请先绑定学生信息</Text>
+          <Text>{ hasStudents ? '暂无考勤信息' : '请先绑定学生信息' }</Text>
         </Banner>
-        <Button onClick={this.goNextPage} style={{position: 'absolute', bottom: 0}}>
-          去绑定
-        </Button>
+        {!hasStudents &&
+          <Button onClick={this.goNextPage} style={{position: 'absolute', bottom: 0}}>去绑定</Button>
+        }
       </Root>
     );
   }

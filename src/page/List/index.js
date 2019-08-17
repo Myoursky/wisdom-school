@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import bindingBk from 'assets/images/binding-bk.png';
 import Body from 'components/Body';
+import Loading from 'components/Loading';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { getStudents } from './../../redux/modules/binding';
@@ -15,11 +16,22 @@ type Props = {
   records: Array<Object>,
 }
 
-class Index extends React.Component<Props> {
+type State = {
+  isLoading: boolean,
+}
 
-  async componentDidMount() {
+class Index extends React.Component<Props, State> {
+
+  state = {
+    isLoading: false
+  }
+
+  componentDidMount() {
     const openId = getlocalStorage('weixin_openId');
-    await this.props.getStudents({memberId: openId});
+    this.setState({isLoading: true});
+    this.props.getStudents({memberId: openId}).then(() => {
+      this.setState({isLoading: false});
+    });
   }
 
   goBinding = () => {
@@ -29,22 +41,27 @@ class Index extends React.Component<Props> {
 
   renderData = () => {
     const { students } = this.props;
-    if (students.length === 0) {
-      return <NoData value="您还未绑定学生" />
+    const { isLoading } = this.state;
+    if (isLoading) {
+      return <Loading value="加载中..." />
+    } else {
+      if (students.length === 0) {
+        return <NoData value="您还未绑定学生" />
+      }
+      const data = students && students.map((student) => {
+        return <ElemContainer key={student.id}>
+          <Elem hasBorder>
+            <Label>学生姓名</Label>
+            <Value>{student.sname}</Value>
+          </Elem>
+          <Elem>
+            <Label>校园卡卡号</Label>
+            <Value>{student.cardNo}</Value>
+          </Elem>
+        </ElemContainer>
+      });
+      return data; 
     }
-    const data = students && students.map((student) => {
-      return <ElemContainer key={student.id}>
-        <Elem hasBorder>
-          <Label>学生姓名</Label>
-          <Value>{student.sname}</Value>
-        </Elem>
-        <Elem>
-          <Label>校园卡卡号</Label>
-          <Value>{student.cardNo}</Value>
-        </Elem>
-      </ElemContainer>
-    });
-    return data;
   }
 
   render() {

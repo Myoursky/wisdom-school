@@ -2,10 +2,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import Body from 'components/Body';
+import Loading from 'components/Loading';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { getlocalStorage } from 'utils/localStorage';
-import { getRecords } from './../../redux/modules/binding';
+import { getRecords, getStudents } from './../../redux/modules/binding';
 import NoRecords from './NoRecords';
 
 type Props = {
@@ -13,35 +14,55 @@ type Props = {
   records: Array<Object>,
 }
 
-class Index extends React.Component<Props> {
+type State = {
+  isLoading: boolean,
+}
+
+class Index extends React.Component<Props, State> {
+
+  state = {
+    isLoading: false
+  }
 
   componentDidMount() {
     const openId = getlocalStorage('weixin_openId');
-    this.props.getRecords({memberId: openId});
+    this.setState({isLoading: true});
+    this.props.getStudents({memberId: openId}).then((result) => {
+      if (result.success) {
+        this.props.getRecords({memberId: openId}).then(() => {
+          this.setState({isLoading: false});
+        });
+      }
+    });
   }
 
   renderData = () => {
-    const { records } = this.props;
-    if (records.length) {
-      const data = records.map(record => {
-        return <ElemContainer key={record.id}>
-          <Elem hasBorder>
-            <Label>学生姓名</Label>
-            <Value>{record.sname}</Value>
-          </Elem>
-          <Elem hasBorder>
-            <Label>考勤时间</Label>
-            <Value>{record.attTime}</Value>
-          </Elem>
-          <Elem>
-            <Label>考勤状态</Label>
-            <Value>{record.attStatus === '1' ? '正常' : '异常'}</Value>
-          </Elem>
-        </ElemContainer>
-      }) 
-      return <Root>{data}</Root>
+    const { records, students } = this.props;
+    const { isLoading } = this.state;
+    if (isLoading) {
+      return <Loading value="加载中..." />
     } else {
-      return <NoRecords />
+      if (records.length) {
+        const data = records.map(record => {
+          return <ElemContainer key={record.id}>
+            <Elem hasBorder>
+              <Label>学生姓名</Label>
+              <Value>{record.sname}</Value>
+            </Elem>
+            <Elem hasBorder>
+              <Label>考勤时间</Label>
+              <Value>{record.attTime}</Value>
+            </Elem>
+            <Elem>
+              <Label>考勤状态</Label>
+              <Value>{record.attStatus === '1' ? '正常' : '异常'}</Value>
+            </Elem>
+          </ElemContainer>
+        }) 
+        return <Root>{data}</Root>
+      } else {
+        return <NoRecords hasStudents={students.length} />
+      }
     }
   }
 
@@ -55,9 +76,11 @@ class Index extends React.Component<Props> {
 }
 
 export default withRouter(connect(state => ({
-  records: state.binding.records
+  records: state.binding.records,
+  students: state.binding.students,
 }), {
-  getRecords
+  getRecords,
+  getStudents,
 })(Index));
 
 const Root = styled.div`
