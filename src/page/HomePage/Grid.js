@@ -51,15 +51,15 @@ class Index extends React.Component<Props> {
           </Elem>
         </Elems>
         <Elems>
-          <Elem onClick={() => this.goNextPage('/wx/react/school/nopage')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/nodatapage?type=0')}>
             <Icon img={noticeIcon} />
             <Text>学校通知</Text>
           </Elem>
-          <Elem onClick={() => this.goNextPage('/wx/react/school/nopage')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/nodatapage?type=1')}>
             <Icon img={performanceIcon} />
             <Text>成绩查询</Text>
           </Elem>
-          <Elem onClick={() => this.goNextPage('/wx/react/school/nopage')}>
+          <Elem onClick={() => this.goNextPage('/wx/react/school/nodatapage?type=2')}>
             <Icon img={homeworkIcon} />
             <Text>家庭作业</Text>
           </Elem>

@@ -33,6 +33,7 @@ const BindingCard = lazy(() => import('./page/Binding'));
 const BindingList = lazy(() => import('./page/List'));
 const RecordList = lazy(() => import('./page/Records'));
 const NoPage = lazy(() => import('./page/NoPage'));
+const NoDataPage = lazy(() => import('./page/NoRecordsPage'));
 
 export default class Root extends Component<?any> {
 
@@ -47,6 +48,7 @@ export default class Root extends Component<?any> {
               <Route path="/wx/react/school/list" component={BindingList}/>
               <Route path="/wx/react/school/records" component={RecordList}/>
               <Route path="/wx/react/school/nopage" component={NoPage}/>
+              <Route path="/wx/react/school/nodatapage" component={NoDataPage}/>
             </Switch>
           </Suspense>
         </Router>

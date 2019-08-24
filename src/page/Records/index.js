@@ -55,7 +55,7 @@ class Index extends React.Component<Props, State> {
             </Elem>
             <Elem>
               <Label>考勤状态</Label>
-              <Value>{record.att_type === '1' ? '到校' : '离校'}</Value>
+              <Value>{record.attType === '1' ? '到校' : '离校'}</Value>
             </Elem>
           </ElemContainer>
         }) 
