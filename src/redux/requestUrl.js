@@ -16,7 +16,7 @@ for (let index in apis) {
     if (process.env.NODE_ENV === 'development') {
       newApis[index] = `${apis[index]}`
     } else {
-      newApis[index] = 'https://www.lcrsinfo.com' + apis[index]
+      newApis[index] = 'https://www.jxan.net.cn' + apis[index]
     }
   }
 }
