@@ -72,7 +72,6 @@ class Index extends React.Component<Props, State> {
       }
       const data = students && students.map((student) => {
         return <Swipeout
-              style={{borderBottom: '1px solid #e0e0e0'}}
               key={student.id}
               autoClose
               right={[
