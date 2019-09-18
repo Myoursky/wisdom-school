@@ -8,7 +8,7 @@ const apis = {
   // 获取微信openID
   get_weixin_openid_url: '/frontapi/login.action',
   // 学生解除绑定
-  relieve_student_url: '/frontapi/relieveStudent.action'
+  relieve_student_url: '/frontapi/bindingStudent/relieveStudent.action'
 }
 
 // 开发环境重新定义请求URL
