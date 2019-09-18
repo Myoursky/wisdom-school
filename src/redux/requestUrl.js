@@ -6,7 +6,9 @@ const apis = {
   // 考勤记录
   get_records_url: '/frontapi/attendanceRecord/qryAttendanceByCardNo.action',
   // 获取微信openID
-  get_weixin_openid_url: '/frontapi/login.action'
+  get_weixin_openid_url: '/frontapi/login.action',
+  // 学生解除绑定
+  relieve_student_url: '/frontapi/relieveStudent.action'
 }
 
 // 开发环境重新定义请求URL

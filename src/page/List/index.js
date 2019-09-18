@@ -6,13 +6,16 @@ import Body from 'components/Body';
 import Loading from 'components/Loading';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { getStudents } from './../../redux/modules/binding';
+import { getStudents, relieveStudent } from './../../redux/modules/binding';
 import { getlocalStorage } from 'utils/localStorage';
+import Swipeout from 'rc-swipeout';
 import Button from 'components/Button';
 import NoData from 'components/NoData';
+import Toast from 'components/Toast';
 
 type Props = {
   getRecords: Function,
+  deleteStudent: Function,
   records: Array<Object>,
 }
 
@@ -27,6 +30,10 @@ class Index extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    this.loadStudent();
+  }
+
+  loadStudent = () => {
     const openId = getlocalStorage('weixin_openId');
     this.setState({isLoading: true});
     this.props.getStudents({memberId: openId}).then(() => {
@@ -39,6 +46,21 @@ class Index extends React.Component<Props, State> {
     this.props.history.push(url);
   }
 
+  deleteStudent = (id) => {
+    const openId = getlocalStorage('weixin_openId');
+    this.props.relieveStudent({
+      memberId:openId,
+      id
+    }).then((result) => {
+      if (result.success) {
+        Toast.show('解绑成功！');
+        this.loadStudent();
+      } else {
+        Toast.show(result.message);
+      }
+    })
+  }
+
   renderData = () => {
     const { students } = this.props;
     const { isLoading } = this.state;
@@ -49,16 +71,29 @@ class Index extends React.Component<Props, State> {
         return <NoData value="您还未绑定学生" />
       }
       const data = students && students.map((student) => {
-        return <ElemContainer key={student.id}>
-          <Elem hasBorder>
-            <Label>学生姓名</Label>
-            <Value>{student.sname}</Value>
-          </Elem>
-          <Elem>
-            <Label>校园卡卡号</Label>
-            <Value>{student.cardNo}</Value>
-          </Elem>
-        </ElemContainer>
+        return <Swipeout
+              style={{borderBottom: '1px solid #e0e0e0'}}
+              key={student.id}
+              autoClose
+              right={[
+                {
+                  text: '解绑',
+                  onPress: () => this.deleteStudent(student.id),
+                  style: { backgroundColor:'#FF161D',color:'#FFF',fontSize:'16px',width: 60, marginBottom: 15, borderRadius: '0 4px 4px 0'}
+                }
+              ]}
+            >
+            <ElemContainer key={student.id}>
+              <Elem hasBorder>
+                <Label>学生姓名</Label>
+                <Value>{student.sname}</Value>
+              </Elem>
+              <Elem>
+                <Label>校园卡卡号</Label>
+                <Value>{student.cardNo}</Value>
+              </Elem>
+            </ElemContainer>
+          </Swipeout>
       });
       return data; 
     }
@@ -82,7 +117,8 @@ class Index extends React.Component<Props, State> {
 export default withRouter(connect(state => ({
   students: state.binding.students,
 }), {
-  getStudents
+  getStudents,
+  relieveStudent
 })(Index));
 
 const Banner = styled.div`
