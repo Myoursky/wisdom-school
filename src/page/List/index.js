@@ -89,7 +89,7 @@ class Index extends React.Component<Props, State> {
               </Elem>
               <Elem>
                 <Label>校园卡卡号</Label>
-                <Value>{student.cardNo}</Value>
+                <Value>{student.cardFrontNo}</Value>
               </Elem>
             </ElemContainer>
           </Swipeout>
